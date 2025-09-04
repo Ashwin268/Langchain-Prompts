@@ -1,20 +1,24 @@
-from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
-from huggingface_hub import InferenceClient
 import streamlit as st
 from dotenv import load_dotenv
 import os
-load_dotenv()
-token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
-print("Token loaded:", token[:10], "...")  # sanity check
-load_dotenv()
-token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
+from langchain_google_genai import ChatGoogleGenerativeAI
 
-llm = HuggingFaceEndpoint(
-    repo_id="HuggingFaceH4/zephyr-7b-beta",
-    task="conversational",
-    huggingfacehub_api_token=token
+
+load_dotenv()
+api_key = os.getenv("GOOGLE_API_KEY")
+
+
+llm = ChatGoogleGenerativeAI(
+    model="gemini-1.5-flash",
+    temperature=0.3,
+    max_output_tokens=100
 )
 
-model = ChatHuggingFace(llm=llm)
-response = model.invoke("Who is the inventor of 0?")
-print(response)
+st.title("Gemini LangChain Demo")
+
+prompt = st.text_input("Trying Gemini Prompt")
+
+if prompt:
+    response = llm.invoke(prompt)
+    st.write("### Gemini says:")
+    st.write(response.content)
