@@ -9,8 +9,7 @@ load_dotenv()
 # api_key = os.getenv("GOOGLE_API_KEY")
 model = ChatGoogleGenerativeAI(
     model="gemini-1.5-flash",
-    temperature=0.3,
-    max_output_tokens=100
+    temperature=0.3
 )
 
 st.title("Summarize research paper using Google Gemini Model")
